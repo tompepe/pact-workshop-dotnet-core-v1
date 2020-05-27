@@ -74,6 +74,24 @@
           "message": "validDateTime is required"
         }
       }
+    },
+    {
+      "description": "a A invalid GET a request for Date Validation with invalid date parameter",
+      "providerState": "There is data",
+      "request": {
+        "method": "get",
+        "path": "/api/provider",
+        "query": "validDateTime=lola"
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "message": "a a validDateTime a is not a date or time, boyz"
+        }
+      }
     }
   ],
   "metadata": {
