@@ -44,8 +44,10 @@ namespace tests
             {
                 if (disposing)
                 {
+                    Console.Out.WriteLine("building") ;
                     // This will save the pact file once finished.
                     PactBuilder.Build();
+                    Console.Out.WriteLine("built") ;
                 }
 
                 disposedValue = true;

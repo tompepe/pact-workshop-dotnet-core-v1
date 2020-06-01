@@ -1,0 +1,448 @@
+{
+  "consumer": {
+    "name": "Consumer"
+  },
+  "provider": {
+    "name": "Provider"
+  },
+  "interactions": [
+    {
+      "description": "A invalid GET request for Date Validation with invalid date parameter",
+      "providerState": "There is data",
+      "request": {
+        "method": "get",
+        "path": "/api/provider",
+        "query": "validDateTime=lolz"
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "message": "validDateTime is not a date or time"
+        }
+      }
+    },
+    {
+      "description": "A valid GET request for Date Validation",
+      "providerState": "There is no data",
+      "request": {
+        "method": "get",
+        "path": "/api/provider",
+        "query": "validDateTime=04/04/2018"
+      },
+      "response": {
+        "status": 404,
+        "headers": {
+        }
+      }
+    },
+    {
+      "description": "A valid GET request for Date Validation",
+      "providerState": "There is data",
+      "request": {
+        "method": "get",
+        "path": "/api/provider",
+        "query": "validDateTime=04/05/2018"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "test": "NO",
+          "validDateTime": "05-04-2018 00:00:00"
+        }
+      }
+    },
+    {
+      "description": "A invalid GET request for Date Validation with empty string date parameter",
+      "providerState": "There is data",
+      "request": {
+        "method": "get",
+        "path": "/api/provider",
+        "query": "validDateTime="
+      },
+      "response": {
+        "status": 400,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "message": "validDateTime is required"
+        }
+      }
+    },
+    {
+      "description": "a A invalid GET a request for Date Validation with invalid date parameter",
+      "providerState": "There is data",
+      "request": {
+        "method": "get",
+        "path": "/api/provider",
+        "query": "validDateTime=lola",
+        "matchingRules": {
+          "$.query": {
+            "match": "regex",
+            "regex": ".*"
+          }
+        }
+      },
+      "response": {
+        "status": 401,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "message": "a a validDateTime a is not a date or time, boyz"
+        }
+      }
+    }
+
+
+    ,
+    {
+      "description": "Introspection",
+      "providerState": "Introspection",
+      "request": {
+        "method": "post",
+        "path": "/api/",
+        "body": {
+          "operationName": "IntrospectionQuery",
+          "query": "",
+          "variables": {
+          }
+        },
+        "matchingRules": {
+          "$.body.query": {
+            "match": "regex",
+            "regex": ".*"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body":{
+          "data":{"site":{"product":"werd!"}}
+        }
+      }
+    }
+
+    ,
+    {
+      "description": "graphql - first three paginateProducts",
+      "providerState": "there are three or more paginateProducts",
+      "request": {
+        "method": "post",
+        "path": "/api/",
+        "body": {
+          "operationName": "paginateProducts",
+          "query":"query paginateProducts {\n  site {\n    products(first: 3) {\n      pageInfo {\n        startCursor\n        endCurso\n      }\n      edges {\n        cursor\n        node {\n          entityId\n          name\n        }\n      }\n    }\n  }\n}\n",
+          "variables": {
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "data":{"site":{"products":{"pageInfo":{"startCursor":"YXJyYXljb25uZWN0aW9uOjA=","endCursor":"YXJyYXljb25uZWN0aW9uOjI="},"edges":[{"cursor":"YXJyYXljb25uZWN0aW9uOjA=","node":{"entityId":80,"name":"Orbit Terrarium - Large"}},{"cursor":"YXJyYXljb25uZWN0aW9uOjE=","node":{"entityId":81,"name":"Shower Curtain"}},{"cursor":"YXJyYXljb25uZWN0aW9uOjI=","node":{"entityId":82,"name":"Chambray Towel"}}]}}}    
+        }
+      }
+    }
+    ,
+    {
+      "description": "graphql - first paginateProduct",
+      "providerState": "there are one or more paginateProducts",
+      "request": {
+        "method": "post",
+        "path": "/api/",
+        "body": {
+          "operationName": "paginateProducts",
+          "query":"query paginateProducts {\n  site {\n    products(first: 1) {\n      pageInfo {\n        startCursor\n        endCurso\n      }\n      edges {\n        cursor\n        node {\n          entityId\n          name\n        }\n      }\n    }\n  }\n}\n",
+          "variables": {
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "data":{"site":{"products":{"pageInfo":{"startCursor":"YXJyYXljb25uZWN0aW9uOjA=","endCursor":"YXJyYXljb25uZWN0aW9uOjI="},"edges":[{"cursor":"YXJyYXljb25uZWN0aW9uOjA=","node":{"entityId":80,"name":"Orbit Terrarium - Large"}}]}}}    
+        }
+      }
+    }
+    ,
+    {
+      "description": "graphql - SrcsetImages",
+      "providerState": "there are no SrcsetImages",
+      "request": {
+        "method": "post",
+        "path": "/api/",
+        "body": {
+          "operationName": "SrcsetImages",
+          "query": "query SrcsetImages($id: Int!, $width320: Int!, $width640: Int!, $width960: Int!, $width128: Int!) {\n  site {\n    product(entityId: $id) {\n      images {\n        edges {\n          node {\n            url320wide: url(width: $width320)\n            url640wide: url(width: $width640)\n            url960wide: url(width: $width960)\n            url1280wide: url(width: $width128)\n          }\n        }\n      }\n    }\n  }\n}\n",
+          "variables": {
+            "id": 666,
+            "width320": 666, 
+            "width640": 666, 
+            "width960": 666, 
+            "width128": 666
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body":{
+          "data":{"site":{"product":"666 is baaaaad"}}
+        }
+      }
+    }
+    ,
+    {
+      "description": "graphql - SrcsetImages",
+      "providerState": "there are no SrcsetImages",
+      "request": {
+        "method": "post",
+        "path": "/api/",
+        "body": {
+          "operationName": "SrcsetImages",
+          "query": "query SrcsetImages($id: Int!, $width320: Int!, $width640: Int!, $width960: Int!, $width128: Int!) {\n  site {\n    product(entityId: $id) {\n      images {\n        edges {\n          node {\n            url320wide: url(width: $width320)\n            url640wide: url(width: $width640)\n            url960wide: url(width: $width960)\n            url1280wide: url(width: $width128)\n          }\n        }\n      }\n    }\n  }\n}\n",
+          "variables": {
+            "id": 1,
+            "width320": 1, 
+            "width640": 1, 
+            "width960": 1, 
+            "width128": 1
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body":{
+          "data":{"site":{"product":"1 is the first one"}}
+        }
+      }
+    }
+    ,
+    {
+      "description": "graphql - SrcsetImages",
+      "providerState": "there are no SrcsetImages",
+      "request": {
+        "method": "post",
+        "path": "/api/",
+        "body": {
+          "operationName": "SrcsetImages",
+          "query": "query SrcsetImages($id: Int!, $width320: Int!) {\n  site {\n    product(entityId: $id) {\n      images {\n        edges {\n          node {\n            url320wide: url(width: $width320)\n          }\n        }\n      }\n    }\n  }\n}\n",
+          "variables": {
+            "id": 123,
+            "width320": 320
+          }
+        },
+        "matchingRules": {
+          "$.body.variables.id": {
+            "match": "type"
+          },
+          "$.body.variables.width320": {
+            "match": "type"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body":{
+          "data": {
+            "site": {
+              "product": {
+                "images": {
+                  "edges": [
+                    {
+                      "node": {
+                        "url320wide": "320w.jpg"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    ,
+    {
+      "description": "graphql - SrcsetImages",
+      "providerState": "there are no SrcsetImages",
+      "request": {
+        "method": "post",
+        "path": "/api/",
+        "body": {
+          "operationName": "SrcsetImages",
+          "query": "query SrcsetImages($id: Int!, $width320: Int!, $width640: Int!, $width960: Int!, $width128: Int!) {\n  site {\n    product(entityId: $id) {\n      images {\n        edges {\n          node {\n            url320wide: url(width: $width320)\n            url640wide: url(width: $width640)\n            url960wide: url(width: $width960)\n            url1280wide: url(width: $width128)\n          }\n        }\n      }\n    }\n  }\n}\n",
+          "variables": {
+            "id": 123,
+            "width320": 320, 
+            "width640": 640, 
+            "width960": 960, 
+            "width128": 128
+          }
+        },
+        "matchingRules": {
+          "$.body.variables.id": {
+            "match": "type"
+          },
+          "$.body.variables.width320": {
+            "match": "type"
+          },
+          "$.body.variables.width640": {
+            "match": "type"
+          },
+          "$.body.variables.width960": {
+            "match": "type"
+          },
+          "$.body.variables.width128": {
+            "match": "type"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body":{
+          "data": {
+            "site": {
+              "product": {
+                "images": {
+                  "edges": [
+                    {
+                      "node": {
+                        "url320wide": "bbbb.jpg",
+                        "url640wide": "640w.jpg",
+                        "url960wide": "960w.jpg",
+                        "url1280wide": "128w.jpg"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    ,
+    {
+      "description": "graphql - SrcsetImages just the big ones",
+      "providerState": "there are product images",
+      "request": {
+        "method": "post",
+        "path": "/api/",
+        "body": {
+          "operationName": "SrcsetImages",
+          "query": "query SrcsetImages($id: Int!, $width960: Int!, $width128: Int!) {\n  site {\n    product(entityId: $id) {\n      images {\n        edges {\n          node {\n            url960wide: url(width: $width960)\n            url1280wide: url(width: $width128)\n          }\n        }\n      }\n    }\n  }\n}\n",
+          "variables": {
+            "id": 66,
+            "width960": 960,
+            "width128": 128
+          }
+        },
+        "matchingRules": {
+          "$.body.operationName": {
+            "match": "regex",
+            "regex": ".*"
+          },
+          "$.body.query": {
+            "match": "regex",
+            "regex": "[/query SrcsetImages.*.**.**.*id: Int!.**.**.*width960: Int!.**.**.*width128: Int!.**) {.**.**site {.**.**.**product.*entityId: .*id) {.**.**.**.**images {.**.**.**.**.**edges {.**.**.**.**.**.**node {.**.**.**.**.**.**.**url960wide: url.*width: .*width960).**.**.**.**.**.**.**url1280wide: url.*width: .*width128).**.**.**.**.**.**}.**.**.**.**.**}.**.**.**.**}.**.**.**}.**.**}.**}.**/m]"
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body":{
+          "data": {
+            "site": {
+              "product": {
+                "images": {
+                  "edges": [
+                    {
+                      "node": {
+                        "url960wide": "BIG960w.jpg",
+                        "url1280wide": "BIG128w.jpg"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+,
+{
+  "request": {
+    "method": "POST",
+    "path": "/api/",
+    "body": {
+      "operationName": "<key not found>",
+      "variables": {
+        "id": 66,
+        "width960": 990,
+        "width128": 128
+      },
+      "query": "query SrcsetImages(\n\t$id: Int!\n\t$width960: Int!\n\t$width128: Int!\n) {\n\tsite {\n\t\tproduct(entityId: $id) {\n\t\t\timages {\n\t\t\t\tedges {\n\t\t\t\t\tnode {\n\t\t\t\t\t\turl960wide: url(width: $width960)\n\t\t\t\t\t\turl1280wide: url(width: $width128)\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}\n"
+    },
+    "matchingRules": {
+      "$.body.operationName": {
+        "match": "regex",
+        "regex": ".*"
+      },
+      "$.body.query": {
+        "match": "regex",
+        "regex": "[/query SrcsetImages.*.**.**.*id: Int!.**.**.*width960: Int!.**.**.*width128: Int!.**) {.**.**site {.**.**.**product.*entityId: .*id) {.**.**.**.**images {.**.**.**.**.**edges {.**.**.**.**.**.**node {.**.**.**.**.**.**.**url960wide: url.*width: .*width960).**.**.**.**.**.**.**url1280wide: url.*width: .*width128).**.**.**.**.**.**}.**.**.**.**.**}.**.**.**.**}.**.**.**}.**.**}.**}.**/m]"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+      "data": {}
+    }
+  }
+}
+
+
+
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}

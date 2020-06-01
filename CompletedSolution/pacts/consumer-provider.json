@@ -76,20 +76,46 @@
       }
     },
     {
-      "description": "a A invalid GET a request for Date Validation with invalid date parameter",
+      "description": "testing demo first",
       "providerState": "There is data",
       "request": {
-        "method": "get",
-        "path": "/api/provider",
-        "query": "validDateTime=lola"
-      },
-      "response": {
-        "status": 401,
+        "method": "post",
+        "path": "/api/",
         "headers": {
           "Content-Type": "application/json; charset=utf-8"
         },
         "body": {
-          "message": "a a validDateTime a is not a date or time, boyz"
+          "operationName": "SrcsetImages",
+          "query": "query SrcsetImages($id: Int!, $width960: Int!, $width128: Int!) {\n  site {\n    product(entityId: $id) {\n      images {\n        edges {\n          node {\n            url960wide: url(width: $width960)\n            url1280wide: url(width: $width128)\n          }\n        }\n      }\n    }\n  }\n}\n",
+          "variables": {
+            "id": 66,
+            "width960": 960,
+            "width128": 128
+          }
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "data": {
+            "site": {
+              "product": {
+                "images": {
+                  "edges": [
+                    {
+                      "node": {
+                        "url960wide": "BIG960w.jpg",
+                        "url1280wide": "BIG128w.jpg"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
         }
       }
     }

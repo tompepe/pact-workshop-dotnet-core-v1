@@ -31,8 +31,10 @@ namespace tests
             _webHost.Start();
         }
 
-        [Fact]
-        public void EnsureProviderApiHonoursPactWithConsumer()
+        [Theory]
+        [InlineData(@"https://raw.githubusercontent.com/tompepe/pact-workshop-dotnet-core-v1/a3ba8857d3642d44f20603a2338d060fbb8b7289/CompletedSolution/pacts/consumer-provider.json")]
+        [InlineData(@"https://raw.githubusercontent.com/tompepe/pact-workshop-dotnet-core-v1/pactV1.1/CompletedSolution/pacts/consumer-provider.json")]
+        public void EnsureProviderApiHonoursPactWithConsumer(string pactUri)
         {
             // Arrange
             var config = new PactVerifierConfig
@@ -55,7 +57,7 @@ namespace tests
             pactVerifier.ProviderState($"{_pactServiceUri}/provider-states")
                 .ServiceProvider("Provider", _providerUri)
                 .HonoursPactWith("Consumer")
-                .PactUri(@"..\..\..\..\..\pacts\consumer-provider.json")
+                .PactUri(pactUri)
                 .Verify();
         }
 
